@@ -1,7 +1,25 @@
 version: 2.1
 orbs:
-  node: circleci/node@3.0.0
+  aws-ecr: circleci/aws-ecr@6.15.0
+jobs:
+  build:
+    executor: aws-ecr/default
+    steps:
+      - run:
+          name: Setup required environment variables
+          command: |
+            echo 'export AWS_ECR_ACCOUNT_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"' >> $BASH_ENV
+      - aws-ecr/build-and-push-image:
+          repo: ${CIRCLE_PROJECT_REPONAME,,}
+          tag: ${CIRCLE_TAG}
+          extra-build-args: --build-arg NODE_ENV=production
+
 workflows:
-  node-tests:
+  workflow:
     jobs:
-      - node/test
+      - build:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
