@@ -6,7 +6,7 @@ const async = require('async');
 const url = require('url');
 const query = require('./query.js');
 
-var Itunes = function(username, password, options, code) {
+var Itunes = function(username, password, code, options) {
   this.options = {
     baseURL: 'https://appstoreconnect.apple.com/olympus/v1',
     loginURL: 'https://idmsa.apple.com/appleauth/auth',
@@ -30,6 +30,7 @@ var Itunes = function(username, password, options, code) {
   if (typeof this.options['cookies'] !== 'undefined') {
     this._cookies = this.options.cookies;
     this._queue.resume();
+    this.options.successCallback(this._cookies);
   } else {
     this.login(username, password, code);
   }
