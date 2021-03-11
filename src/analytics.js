@@ -102,9 +102,7 @@ Itunes.prototype.login = function(username, password, code) {
       'X-Apple-ID-Session-Id': res.response.headers['x-apple-id-session-id'],
       'X-Apple-Widget-Key': this.options.appleWidgetKey,
       'X-Requested-With': 'XMLHttpRequest',
-      'X-Apple-Domain-Id': '3',
-      'Sec-Fetch-Site': 'same-origin',
-      'Sec-Fetch-Mode': 'cors'
+      'X-Apple-Domain-Id': '3'
     };
 
     //We need to get the 2fa code
